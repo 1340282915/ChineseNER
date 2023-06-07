@@ -1,6 +1,7 @@
 # coding=utf-8
 import pickle
 import pdb
+import time
 with open('../data/Bosondata.pkl', 'rb') as inp:
 	word2id = pickle.load(inp)
 	id2word = pickle.load(inp)
@@ -12,9 +13,9 @@ with open('../data/Bosondata.pkl', 'rb') as inp:
 	y_test = pickle.load(inp)
 	x_valid = pickle.load(inp)
 	y_valid = pickle.load(inp)
-print "train len:",len(x_train)
-print "test len:",len(x_test)
-print "valid len", len(x_valid)
+print ("train len:",len(x_train))
+print ("test len:",len(x_test))
+print ("valid len", len(x_valid))
 
 import torch
 import torch.autograd as autograd
@@ -33,29 +34,34 @@ EPOCHS = 5
 
 tag2id[START_TAG]=len(tag2id)
 tag2id[STOP_TAG]=len(tag2id)
-
-
+device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(torch.cuda.current_device())
 model = BiLSTM_CRF(len(word2id)+1, tag2id, EMBEDDING_DIM, HIDDEN_DIM)
-
+model.to(device)
 optimizer = optim.SGD(model.parameters(), lr=0.005, weight_decay=1e-4)
+# 添加gpu训练
 
     
     
 for epoch in range(EPOCHS):
     index=0
     for sentence, tags in zip(x_train,y_train):
+        print(sentence)
+        print(tags)
+        
         index+=1
         model.zero_grad()
 
         sentence=torch.tensor(sentence, dtype=torch.long)
         tags = torch.tensor([tag2id[t] for t in tags], dtype=torch.long)
-
+        sentence=sentence.to(device)
+        tags=tags.to(device)
         loss = model.neg_log_likelihood(sentence, tags)
-
+        loss.to(device)
         loss.backward()
         optimizer.step()
         if index%300==0:
-            print "epoch",epoch,"index",index
+            print ("epoch",epoch,"index",index)
     entityres=[]
     entityall=[]
     for sentence, tags in zip(x_test,y_test):
@@ -67,15 +73,15 @@ for epoch in range(EPOCHS):
     if len(jiaoji)!=0:
         zhun = float(len(jiaoji))/len(entityres)
         zhao = float(len(jiaoji))/len(entityall)
-        print "test:"
-        print "zhun:", zhun
-        print "zhao:", zhao
-        print "f:", (2*zhun*zhao)/(zhun+zhao)
+        print ("test:")
+        print ("zhun:", zhun)
+        print ("zhao:", zhao)
+        print ("f:", (2*zhun*zhao)/(zhun+zhao))
     else:
-        print "zhun:",0
+        print ("zhun:",0)
     
     path_name = "./model/model"+str(epoch)+".pkl"
-    print path_name
+    print (path_name)
     torch.save(model, path_name)
-    print "model has been saved"
+    print ("model has been saved")
 

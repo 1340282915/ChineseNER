@@ -20,7 +20,7 @@ def prepare_sequence(seq, to_ix):
 # Compute log sum exp in a numerically stable way for the forward algorithm
 def log_sum_exp(vec):
     max_score = vec[0, argmax(vec)]
-    max_score_broadcast = max_score.view(1, -1).expand(1, vec.size()[1])
+    max_score_broadcast = max_score.view(1, -1).expand(1, vec.size()[1])#(1,target_size)
     return max_score + \
         torch.log(torch.sum(torch.exp(vec - max_score_broadcast)))
 
@@ -73,10 +73,10 @@ class BiLSTM_CRF(nn.Module):
                 # broadcast the emission score: it is the same regardless of
                 # the previous tag
                 emit_score = feat[next_tag].view(
-                    1, -1).expand(1, self.tagset_size)
+                    1, -1).expand(1, self.tagset_size)#(1,target_size)
                 # the ith entry of trans_score is the score of transitioning to
                 # next_tag from i
-                trans_score = self.transitions[next_tag].view(1, -1)
+                trans_score = self.transitions[next_tag].view(1, -1)#(1,target_size)
                 # The ith entry of next_tag_var is the value for the
                 # edge (i -> next_tag) before we do log-sum-exp
                 next_tag_var = forward_var + trans_score + emit_score
@@ -89,11 +89,12 @@ class BiLSTM_CRF(nn.Module):
         return alpha
 
     def _get_lstm_features(self, sentence):
+        #(sl)
         self.hidden = self.init_hidden()
-        embeds = self.word_embeds(sentence).view(len(sentence), 1, -1)
-        lstm_out, self.hidden = self.lstm(embeds, self.hidden)
-        lstm_out = lstm_out.view(len(sentence), self.hidden_dim)
-        lstm_feats = self.hidden2tag(lstm_out)
+        embeds = self.word_embeds(sentence).view(len(sentence), 1, -1)#(sl,1,eb)
+        lstm_out, self.hidden = self.lstm(embeds, self.hidden)#lstm_out:(sl,1,hidden),hidden:(2,1,hidden//2)
+        lstm_out = lstm_out.view(len(sentence), self.hidden_dim)#(sl,hidden)
+        lstm_feats = self.hidden2tag(lstm_out)#(sl,target_size)
         return lstm_feats
 
     def _score_sentence(self, feats, tags):
@@ -101,8 +102,7 @@ class BiLSTM_CRF(nn.Module):
         score = torch.zeros(1)
         tags = torch.cat([torch.tensor([self.tag_to_ix[START_TAG]], dtype=torch.long), tags])
         for i, feat in enumerate(feats):
-            score = score + \
-                self.transitions[tags[i + 1], tags[i]] + feat[tags[i + 1]]
+            score = score + self.transitions[tags[i + 1], tags[i]] + feat[tags[i + 1]]
         score = score + self.transitions[self.tag_to_ix[STOP_TAG], tags[-1]]
         return score
 
@@ -151,14 +151,14 @@ class BiLSTM_CRF(nn.Module):
         return path_score, best_path
 
     def neg_log_likelihood(self, sentence, tags):
-        feats = self._get_lstm_features(sentence)
+        feats = self._get_lstm_features(sentence)#(sl,target_size)
         forward_score = self._forward_alg(feats)
         gold_score = self._score_sentence(feats, tags)
         return forward_score - gold_score
 
     def forward(self, sentence):  # dont confuse this with _forward_alg above.
         # Get the emission scores from the BiLSTM
-        lstm_feats = self._get_lstm_features(sentence)
+        lstm_feats = self._get_lstm_features(sentence)#(sl,target_size)
 
         # Find the best path, given the features.
         score, tag_seq = self._viterbi_decode(lstm_feats)
