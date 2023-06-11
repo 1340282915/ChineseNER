@@ -1,0 +1,166 @@
+赢 得 了 王 林 的 喜 欢 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+前 景 展 望 ： 2 0 0 6 年 到 2 0 1 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/M_time 到/M_time 2/M_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+前 景 展 望 ： 2 0 0 6 年 到 2 0 1 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/M_time 到/M_time 2/M_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+在 河 北 大 学 附 属 医 院 附 近 
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+香 港 法 例 第 三 十 二 章 
+香 港 finish
+香/B_location 港/E_location 1 
+法 例 第 三 十 二 章 
+近 日 { { c o m p a n y _ n a m e } } 购 车 编 辑 从 { { c o m p a n y _ n a m e } } 某 经 销 商 处 获 悉 
+近 日 finish
+近/B_time 日/E_time 1 
+{ { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 36 
+} } 某 经 销 商 处 获 悉 
+赢 得 了 王 林 的 喜 欢 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+前 景 展 望 ： 2 0 0 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/E_time 9 
+到 2 0 1 6 年 finish
+2/B_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+前 景 展 望 ： 2 0 0 6 年 到 2 0 1 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/M_time 到/M_time 2/M_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+在 河 北 大 学 附 属 医 院 附 近 finish
+河/B_product_name 北/M_product_name 大/M_product_name 学/M_product_name 附/M_product_name 属/M_product_name 医/M_product_name 院/M_product_name 附/M_product_name 近/E_product_name 10 
+
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+香 港 法 例 第 三 十 二 章 
+香 港 finish
+香/B_location 港/E_location 1 
+法 例 第 三 十 二 章 
+近 日 { { c o m p a n y _ n a m e finish
+近/B_product_name 日/M_product_name {/M_product_name {/M_product_name c/M_product_name o/M_product_name m/M_product_name p/M_product_name a/M_product_name n/M_product_name y/M_product_name _/M_product_name n/M_product_name a/M_product_name m/M_product_name e/E_product_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e } } 某 经 销 商 处 获 悉 
+近 日 finish
+近/B_time 日/E_time 1 
+{ { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 36 
+} } 某 经 销 商 处 获 悉 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+前 景 展 望 ： 2 0 0 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/E_time 9 
+到 2 0 1 6 年 finish
+2/B_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+前 景 展 望 ： 2 0 0 6 年 到 2 0 1 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/M_time 到/M_time 2/M_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+在 河 北 大 学 附 属 医 院 finish
+北/B_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+香 港 法 例 第 三 十 二 章 finish
+香/B_product_name 港/M_product_name 法/M_product_name 例/M_product_name 第/M_product_name 三/M_product_name 十/M_product_name 二/M_product_name 章/E_product_name 8 
+
+香 港 finish
+香/B_location 港/E_location 1 
+法 例 第 三 十 二 章 
+近 日 { { c o m p a n y _ n a m e } } 购 车 编 辑 从 { { c o m p a n y _ n a m e } } 某 经 销 商 处 获 悉 
+近 日 finish
+近/B_time 日/E_time 1 
+{ { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 36 
+} } 某 经 销 商 处 获 悉 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+前 景 展 望 ： 2 0 0 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/E_time 9 
+到 2 0 1 6 年 finish
+2/B_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+前 景 展 望 ： 2 0 0 6 年 到 2 0 1 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/M_time 到/M_time 2/M_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+香 港 法 例 第 三 十 二 章 finish
+香/B_product_name 港/M_product_name 法/M_product_name 例/M_product_name 第/M_product_name 三/M_product_name 十/M_product_name 二/M_product_name 章/E_product_name 8 
+
+香 港 finish
+香/B_location 港/E_location 1 
+法 例 第 三 十 二 章 
+近 日 { { c o m p a n y _ n a m e finish
+近/B_company_name 日/M_company_name {/M_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e } } 某 经 销 商 处 获 悉 
+近 日 finish
+近/B_time 日/E_time 1 
+{ { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 36 
+} } 某 经 销 商 处 获 悉 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+赢 得 了 王 林 finish
+王/B_person_name 林/E_person_name 4 
+的 喜 欢 
+前 景 展 望 ： 2 0 0 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/E_time 9 
+到 2 0 1 6 年 finish
+2/B_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+前 景 展 望 ： 2 0 0 6 年 到 2 0 1 6 年 finish
+2/B_time 0/M_time 0/M_time 6/M_time 年/M_time 到/M_time 2/M_time 0/M_time 1/M_time 6/M_time 年/E_time 15 
+间 
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+在 河 北 大 学 附 属 医 院 finish
+河/B_org_name 北/M_org_name 大/M_org_name 学/M_org_name 附/M_org_name 属/M_org_name 医/M_org_name 院/E_org_name 8 
+附 近 
+香 港 finish
+香/B_location 港/E_location 1 
+法 例 第 三 十 二 finish
+三/B_time 十/M_time 二/E_time 7 
+章 
+香 港 finish
+香/B_location 港/E_location 1 
+法 例 第 三 十 二 章 
+近 日 { { c o m p a n y _ n a m e finish
+日/B_company_name {/M_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e } } 某 经 销 商 处 获 悉 
+近 日 finish
+近/B_time 日/E_time 1 
+{ { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 15 
+} } 购 车 编 辑 从 { { c o m p a n y _ n a m e finish
+{/B_company_name {/M_company_name c/M_company_name o/M_company_name m/M_company_name p/M_company_name a/M_company_name n/M_company_name y/M_company_name _/M_company_name n/M_company_name a/M_company_name m/M_company_name e/E_company_name 36 
+} } 某 经 销 商 处 获 悉 

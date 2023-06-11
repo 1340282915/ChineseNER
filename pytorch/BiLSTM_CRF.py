@@ -24,6 +24,11 @@ def log_sum_exp(vec):
     return max_score + \
         torch.log(torch.sum(torch.exp(vec - max_score_broadcast)))
 
+def log_sum_exp_mat(mat):
+    max_score = torch.max(mat,-1,keepdim=True)[0]# 要注意添加[0],因为max添加dim后会有value和index之分
+    return max_score + \
+        torch.log(torch.sum(torch.exp(mat - max_score),-1,keepdim=True))
+
 class BiLSTM_CRF(nn.Module):
 
     def __init__(self, vocab_size, tag_to_ix, embedding_dim, hidden_dim):
@@ -51,15 +56,15 @@ class BiLSTM_CRF(nn.Module):
         self.transitions.data[tag_to_ix[START_TAG], :] = -10000
         self.transitions.data[:, tag_to_ix[STOP_TAG]] = -10000
 
-        self.hidden = self.init_hidden()
+        # self.hidden = self.init_hidden()
 
-    def init_hidden(self):
-        return (torch.randn(2, 1, self.hidden_dim // 2),
-                torch.randn(2, 1, self.hidden_dim // 2))
+    def init_hidden(self,sentence):
+        return (torch.randn(2, 1, self.hidden_dim // 2).to(sentence.device),
+                torch.randn(2, 1, self.hidden_dim // 2).to(sentence.device))
 
     def _forward_alg(self, feats):
         # Do the forward algorithm to compute the partition function
-        init_alphas = torch.full((1, self.tagset_size), -10000.)
+        init_alphas = torch.full((1, self.tagset_size), -10000.).to(feats.device)
         # START_TAG has all of the score.
         init_alphas[0][self.tag_to_ix[START_TAG]] = 0.
 
@@ -68,29 +73,34 @@ class BiLSTM_CRF(nn.Module):
 
         # Iterate through the sentence
         for feat in feats:
-            alphas_t = []  # The forward tensors at this timestep
-            for next_tag in range(self.tagset_size):
-                # broadcast the emission score: it is the same regardless of
-                # the previous tag
-                emit_score = feat[next_tag].view(
-                    1, -1).expand(1, self.tagset_size)#(1,target_size)
-                # the ith entry of trans_score is the score of transitioning to
-                # next_tag from i
-                trans_score = self.transitions[next_tag].view(1, -1)#(1,target_size)
-                # The ith entry of next_tag_var is the value for the
-                # edge (i -> next_tag) before we do log-sum-exp
-                next_tag_var = forward_var + trans_score + emit_score
-                # The forward variable for this tag is log-sum-exp of all the
-                # scores.
-                alphas_t.append(log_sum_exp(next_tag_var).view(1))
-            forward_var = torch.cat(alphas_t).view(1, -1)
-        terminal_var = forward_var + self.transitions[self.tag_to_ix[STOP_TAG]]
-        alpha = log_sum_exp(terminal_var)
+            # alphas_t = []  # The forward tensors at this timestep
+        #     for next_tag in range(self.tagset_size):
+        #         # broadcast the emission score: it is the same regardless of
+        #         # the previous tag
+        #         emit_score = feat[next_tag].view(
+        #             1, -1).expand(1, self.tagset_size)#(1,target_size)
+        #         # the ith entry of trans_score is the score of transitioning to
+        #         # next_tag from i
+        #         trans_score = self.transitions[next_tag].view(1, -1).to(feats.device)#(1,target_size)
+        #         # The ith entry of next_tag_var is the value for the
+        #         # edge (i -> next_tag) before we do log-sum-exp
+        #         next_tag_var = forward_var + trans_score + emit_score
+        #         # The forward variable for this tag is log-sum-exp of all the
+        #         # scores.
+        #         alphas_t.append(log_sum_exp(next_tag_var).view(1))
+        #     forward_var = torch.cat(alphas_t).view(1, -1)
+        # terminal_var = forward_var + self.transitions[self.tag_to_ix[STOP_TAG]]
+        # alpha = log_sum_exp(terminal_var)
+            feat=feat.view(self.tagset_size,1)
+            trans_score=forward_var+feat+self.transitions.to(feats.device)
+            forward_var=log_sum_exp_mat(trans_score).view(1,-1)
+        terminal_var=forward_var + self.transitions[self.tag_to_ix[STOP_TAG]]
+        alpha=log_sum_exp_mat(terminal_var)
         return alpha
 
     def _get_lstm_features(self, sentence):
         #(sl)
-        self.hidden = self.init_hidden()
+        self.hidden = self.init_hidden(sentence)
         embeds = self.word_embeds(sentence).view(len(sentence), 1, -1)#(sl,1,eb)
         lstm_out, self.hidden = self.lstm(embeds, self.hidden)#lstm_out:(sl,1,hidden),hidden:(2,1,hidden//2)
         lstm_out = lstm_out.view(len(sentence), self.hidden_dim)#(sl,hidden)
@@ -99,10 +109,10 @@ class BiLSTM_CRF(nn.Module):
 
     def _score_sentence(self, feats, tags):
         # Gives the score of a provided tag sequence
-        score = torch.zeros(1)
-        tags = torch.cat([torch.tensor([self.tag_to_ix[START_TAG]], dtype=torch.long), tags])
+        score = torch.zeros(1).to(feats.device)
+        tags = torch.cat([torch.tensor([self.tag_to_ix[START_TAG]], dtype=torch.long).to(feats.device), tags.to(feats.device)])
         for i, feat in enumerate(feats):
-            score = score + self.transitions[tags[i + 1], tags[i]] + feat[tags[i + 1]]
+            score = score + self.transitions[tags[i + 1], tags[i]].to(feats.device) + feat[tags[i + 1]]
         score = score + self.transitions[self.tag_to_ix[STOP_TAG], tags[-1]]
         return score
 
@@ -110,29 +120,38 @@ class BiLSTM_CRF(nn.Module):
         backpointers = []
 
         # Initialize the viterbi variables in log space
-        init_vvars = torch.full((1, self.tagset_size), -10000.)
+        init_vvars = torch.full((1, self.tagset_size), -10000.).to(feats.device)
         init_vvars[0][self.tag_to_ix[START_TAG]] = 0
 
         # forward_var at step i holds the viterbi variables for step i-1
         forward_var = init_vvars
         for feat in feats:
-            bptrs_t = []  # holds the backpointers for this step
-            viterbivars_t = []  # holds the viterbi variables for this step
+            # bptrs_t = []  # holds the backpointers for this step
+            # viterbivars_t = []  # holds the viterbi variables for this step
 
-            for next_tag in range(self.tagset_size):
-                # next_tag_var[i] holds the viterbi variable for tag i at the
-                # previous step, plus the score of transitioning
-                # from tag i to next_tag.
-                # We don't include the emission scores here because the max
-                # does not depend on them (we add them in below)
-                next_tag_var = forward_var + self.transitions[next_tag]
-                best_tag_id = argmax(next_tag_var)
-                bptrs_t.append(best_tag_id)
-                viterbivars_t.append(next_tag_var[0][best_tag_id].view(1))
-            # Now add in the emission scores, and assign forward_var to the set
-            # of viterbi variables we just computed
-            forward_var = (torch.cat(viterbivars_t) + feat).view(1, -1)
+            # for next_tag in range(self.tagset_size):
+            #     # next_tag_var[i] holds the viterbi variable for tag i at the
+            #     # previous step, plus the score of transitioning
+            #     # from tag i to next_tag.
+            #     # We don't include the emission scores here because the max
+            #     # does not depend on them (we add them in below)
+            #     next_tag_var = forward_var + self.transitions[next_tag].to(feats.device)
+            #     best_tag_id = argmax(next_tag_var)
+            #     bptrs_t.append(best_tag_id)
+            #     viterbivars_t.append(next_tag_var[0][best_tag_id].view(1))
+            # # Now add in the emission scores, and assign forward_var to the set
+            # # of viterbi variables we just computed
+            # forward_var = (torch.cat(viterbivars_t) + feat).view(1, -1)
+            # backpointers.append(bptrs_t)
+
+            bptrs_t=[]
+            next_tag_var=forward_var+self.transitions.to(feats.device)
+            viterbivars_t,best_tag_id=torch.max(next_tag_var,dim=-1)
+            bptrs_t=best_tag_id.tolist()
+            forward_var=viterbivars_t.view(1,-1)+feat
             backpointers.append(bptrs_t)
+
+
 
         # Transition to STOP_TAG
         terminal_var = forward_var + self.transitions[self.tag_to_ix[STOP_TAG]]

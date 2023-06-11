@@ -23,7 +23,7 @@ import torch.nn as nn
 import torch.optim as optim
 import codecs 
 from BiLSTM_CRF import BiLSTM_CRF
-from resultCal import calculate
+from resultCal import calculate,calculate3
 
 #############
 START_TAG = "<START>"
@@ -39,15 +39,14 @@ print(torch.cuda.current_device())
 model = BiLSTM_CRF(len(word2id)+1, tag2id, EMBEDDING_DIM, HIDDEN_DIM)
 model.to(device)
 optimizer = optim.SGD(model.parameters(), lr=0.005, weight_decay=1e-4)
-# 添加gpu训练
 
     
     
 for epoch in range(EPOCHS):
     index=0
     for sentence, tags in zip(x_train,y_train):
-        print(sentence)
-        print(tags)
+        # print(sentence)
+        # print(tags)
         
         index+=1
         model.zero_grad()
@@ -64,11 +63,12 @@ for epoch in range(EPOCHS):
             print ("epoch",epoch,"index",index)
     entityres=[]
     entityall=[]
-    for sentence, tags in zip(x_test,y_test):
+    for idx,(sentence, tags) in enumerate(zip(x_test,y_test)):
         sentence=torch.tensor(sentence, dtype=torch.long)
+        sentence=sentence.to(device)
         score,predict = model(sentence)
-        entityres = calculate(sentence,predict,id2word,id2tag,entityres)
-        entityall = calculate(sentence,tags,id2word,id2tag,entityall)
+        entityres = calculate3(sentence,predict,id2word,id2tag,idx,entityres)
+        entityall = calculate3(sentence,tags,id2word,id2tag,idx,entityall)
     jiaoji = [i for i in entityres if i in entityall]
     if len(jiaoji)!=0:
         zhun = float(len(jiaoji))/len(entityres)
@@ -80,8 +80,8 @@ for epoch in range(EPOCHS):
     else:
         print ("zhun:",0)
     
-    path_name = "./model/model"+str(epoch)+".pkl"
-    print (path_name)
-    torch.save(model, path_name)
+    # path_name = "./model_saved/model"+str(epoch)+".pkl"
+    # print (path_name)
+    # torch.save(model, path_name)
     print ("model has been saved")
 

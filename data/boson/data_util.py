@@ -87,8 +87,8 @@ def data2pkl():
     datas=list(datas)
     df_data['x'] = df_data['words'].apply(X_padding)
     df_data['y'] = df_data['tags'].apply(y_padding)
-    x = np.asarray(list(df_data['x'].values))
-    y = np.asarray(list(df_data['y'].values))
+    x = np.asarray(list(df_data['x'].values))[:2000]
+    y = np.asarray(list(df_data['y'].values))[:2000]
     # print('123',x.shape)
     # print(y.shape)
 
